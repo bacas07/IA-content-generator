@@ -2,6 +2,8 @@ import e from "express";
 import bodyParser from "body-parser";
 import { connectDB } from "../config/connect.js";
 import { config } from "../config/middlewares.js";
+import userRoutes from "./routes/userRoutes.js";
+
 
 const app = e();
 
@@ -11,6 +13,7 @@ config(app);
 app.get('/', (req, res) => {
     return res.status(200).json({ message: 'Hello world' });
 });
+app.use('/user', userRoutes)
 
 try {
     const PORT = process.env.PORT || 5000

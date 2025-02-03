@@ -1,4 +1,4 @@
-import user from "../schemas/userSchema";
+import user from "../schemas/userSchema.js";
 
 class userModel {
     async find () {
