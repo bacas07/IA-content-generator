@@ -15,19 +15,38 @@ class userController {
         }
     }
 
-    async findOne (req, res) {
-
-    }
-
     async findByID (req, res) {
-    
+        try {
+            const { id } = req.params;
+            const user = await userModel.findById(id);
+
+            if (!user) {
+                return res.status(404).json({ error: 'User dont exist' });
+            }
+
+            return res.status(200).json(user);
+        } catch (e) {
+            return res.status(500).json({ error: 'Error finding user' })
+        }
     }
 
-    async update (req, res) {
+    async updateByID (req, res) {
+        try {
+            const { id } = req.params;
+            const new_user = await userModel.updateById(id, res.body);
 
+            if (!new_user) {
+                return res.status(404).json({ error: 'User cannot update or user doesnt exist' });
+            }
+
+            return res.status ()
+
+        } catch (e) {
+            
+        }
     }
 
-    async delete (req, res) {
+    async deleteByID (req, res) {
 
     }
 
