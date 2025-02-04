@@ -26,8 +26,22 @@ class parameterController {
         }
     }
 
-    async create () {
-
+    async create (req, res) {
+        try {
+            const { category, keywords, length } = req.body;
+            const userID = req.user.id;
+            
+            const parameter = await parameterModel.create({
+                userID,
+                category,
+                keywords,
+                length
+            });
+            
+            return res.status(201).json({ message: 'Parameter created' });
+        } catch (e) {
+            return res.status(500).json({ error: 'Error creating parameter' });
+        }
     }
 
     updateByID () {
@@ -38,3 +52,5 @@ class parameterController {
 
     }
 }
+
+export default new parameterController();
