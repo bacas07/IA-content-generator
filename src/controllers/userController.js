@@ -66,7 +66,12 @@ class userController {
     async register (req, res) {
         try {
             const { username, email, password, role } = req.body;
-            const user_exist = await userModel.findOne({ email, username });
+            const user_exist = await userModel.findOne({
+                $or: [
+                    { username: username },
+                    { email: email }
+                ]
+            });
 
             if (user_exist) {
                 return res.status(401).json({ error: 'User already exists' });
@@ -89,7 +94,12 @@ class userController {
     async login (req, res) {
         try {
             const { username, email, password } = req.body;
-            const user_exist = await userModel.findOne({ username, email });
+            const user_exist = await userModel.findOne({
+                $or: [
+                    { username: username },
+                    { email: email }
+                ]
+            });
 
             if (!user_exist) {
                 return res.status(404).json({ error: 'User doesnt exist' });
