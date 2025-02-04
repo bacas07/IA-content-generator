@@ -25,6 +25,14 @@ class parameterModel {
         }
     }
 
+    async findByCategory (category) {
+        try {
+            return await parameter.find({ category: category });
+        } catch (e) {
+            console.error('error: ', e);
+        }
+    }
+
     async create (data) {
         try {
             const new_parameter = new parameter(data);
