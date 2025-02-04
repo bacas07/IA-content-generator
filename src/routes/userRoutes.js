@@ -5,4 +5,8 @@ const userRoutes = express.Router();
 
 userRoutes.get('/', (req, res) => userController.find(req, res));
 
+userRoutes.get('/:id', (req, res) => userController.findByID(req, res));
+
+userRoutes.post('/register', (req, res) => userController.register(req, res));
+
 export default userRoutes;

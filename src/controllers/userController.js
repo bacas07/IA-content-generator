@@ -67,7 +67,7 @@ class userController {
             const { username, email, password, role } = req.body;
             const user_exist = await userModel.findOne({ email, username });
 
-            if (!user_exist) {
+            if (user_exist) {
                 return res.status(401).json({ error: 'User already exists' });
             }
 
