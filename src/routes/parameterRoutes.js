@@ -8,7 +8,7 @@ parameterRoutes.get('/all', verifyToken, (req, res) => parameterController.find(
 
 parameterRoutes.get('/:id', verifyToken, (req, res) => parameterController.findByID(req, res));
 
-parameterRoutes.get('/category', verifyToken, (req, res) => parameterController.findByCategory(req, res));
+parameterRoutes.get('/category/:category', verifyToken, (req, res) => parameterController.findByCategory(req, res));
 
 parameterRoutes.post('/create', verifyToken, (req, res) => parameterController.create(req, res));
 
