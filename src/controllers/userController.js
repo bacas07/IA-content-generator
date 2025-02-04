@@ -58,12 +58,22 @@ class userController {
             return res.status(204).json({ message: 'User deleted' });
 
         } catch (e) {
-            
+            return res.status(500).json({ error: 'Error deleting user' });
         }
     }
 
     async register (req, res) {
-        
+        const { username, email, password } = req.body;
+        const user_exist = await userModel.findOne({ email, username });
+
+        if (!user_exist) {
+            return res.status(401).json({ error: 'User already exists' });
+        }
+
+        const hashed_password = await hash(password);
+        const new_user = await userModel.create({
+            username,
+        })
     }
 
     async login (req, res) {
