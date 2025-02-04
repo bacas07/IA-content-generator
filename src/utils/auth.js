@@ -1,6 +1,8 @@
 import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv";
 
+dotenv.config();
+
 export const generateToken = (user) => {
     try {
         const payload = {
@@ -29,7 +31,7 @@ export const verifyToken =  (req, res, next) => {
 
         const decoded = jsonwebtoken.verify(token, process.env.JWT_TOKEN_SECRET);
         req.user = decoded;
-        
+
         next();
     } catch (e) {
         return res.status(401).json({ error: 'Invalid token' });
