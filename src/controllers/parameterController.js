@@ -26,6 +26,22 @@ class parameterController {
         }
     }
 
+    async findByCategory (req, res) {
+        try {
+            const { category } = req.params;
+            const parameters = await parameterModel.findByCategory(category);
+
+            if (!parameters.length) {
+                return res.status(404).json({ error: 'No parameters found for this category' });
+            }
+
+            return res.status(200).json(parameters);
+
+        } catch (e) {
+            return res.status(500).json({ error: 'Error finding parameters' });
+        }
+    }
+
     async create (req, res) {
         try {
             const { category, keywords, length } = req.body;
