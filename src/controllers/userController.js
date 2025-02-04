@@ -63,17 +63,26 @@ class userController {
     }
 
     async register (req, res) {
-        const { username, email, password } = req.body;
-        const user_exist = await userModel.findOne({ email, username });
+        try {
+            const { username, email, password, role } = req.body;
+            const user_exist = await userModel.findOne({ email, username });
 
-        if (!user_exist) {
-            return res.status(401).json({ error: 'User already exists' });
+            if (!user_exist) {
+                return res.status(401).json({ error: 'User already exists' });
+            }
+
+            const hashed_password = await hash(password);
+            const new_user = await userModel.create({
+                username,
+                email,
+                password: hashed_password,
+                role
+            })
+
+            return res.status(201).json({ message: 'User created' });
+        } catch (e) {
+            return res.status(500).json({ error: 'Error creating user' });
         }
-
-        const hashed_password = await hash(password);
-        const new_user = await userModel.create({
-            username,
-        })
     }
 
     async login (req, res) {
