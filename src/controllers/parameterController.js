@@ -30,6 +30,10 @@ class parameterController {
         try {
             const { category, keywords, length } = req.body;
             const userID = req.user.id;
+
+            if (!category || !keywords || !length) {
+                return res.status(400).json({ error: 'All fields are required' })
+            }
             
             const parameter = await parameterModel.create({
                 userID,
@@ -37,7 +41,7 @@ class parameterController {
                 keywords,
                 length
             });
-            
+
             return res.status(201).json({ message: 'Parameter created' });
         } catch (e) {
             return res.status(500).json({ error: 'Error creating parameter' });
