@@ -26,6 +26,21 @@ class parameterController {
         }
     }
 
+    async findByUserID (req, res) {
+        try {
+            const { id } = req.params;
+            const parameters = await parameterModel.findByUserID(id);
+
+            if (!parameters) {
+                return res.status(404).json({ error: 'Parameters not found for this user' });
+            }
+
+            return res.status(200).json(parameters);
+        } catch (e) {
+            return res.status(500).json({ error: 'Error finding parameters' });
+        }
+    }
+
     async findByCategory (req, res) {
         try {
             const { category } = req.params;
@@ -41,8 +56,6 @@ class parameterController {
             return res.status(500).json({ error: 'Error finding parameters' });
         }
     }
-
-    
 
     async create (req, res) {
         try {
