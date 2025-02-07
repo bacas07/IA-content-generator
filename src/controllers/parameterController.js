@@ -7,6 +7,7 @@ class parameterController {
             const parameters = await parameterModel.find();
             return res.status(200).json(parameters);    
         } catch (e) {
+            console.error('Error: ', e);
             return res.status(500).json({ error: 'Error finding all parameters' });
         }
     }
@@ -22,6 +23,7 @@ class parameterController {
 
             return res.status(200).json(parameter);
         } catch (e) {
+            console.error('Error: ', e);
             return res.status(500).json({ error: 'Error finding parameter' });
         }
     }
@@ -37,6 +39,7 @@ class parameterController {
 
             return res.status(200).json(parameters);
         } catch (e) {
+            console.error('Error: ', e);
             return res.status(500).json({ error: 'Error finding parameters' });
         }
     }
@@ -51,8 +54,8 @@ class parameterController {
             }
 
             return res.status(200).json(parameters);
-
         } catch (e) {
+            console.error('Error: ', e);
             return res.status(500).json({ error: 'Error finding parameters' });
         }
     }
@@ -75,6 +78,7 @@ class parameterController {
 
             return res.status(201).json({ message: 'Parameter created' });
         } catch (e) {
+            console.error('Error: ', e);
             return res.status(500).json({ error: 'Error creating parameter' });
         }
     }
@@ -90,6 +94,7 @@ class parameterController {
 
             return res.status(201).json({ message: 'Parameter updated' });
         } catch (e) {
+            console.error('Error: ', e);
             return res.status(500).json({ error: 'Error updating parameter' });
         }
     }
@@ -105,6 +110,7 @@ class parameterController {
 
             return res.status(204).json({ message: 'Parameter deleted' });
         } catch (e) {
+            console.error('Error: ', e);
             return res.status(500).json({ error: 'Error deleting parameter' });
         }
     }
