@@ -27,7 +27,15 @@ class contentModel {
 
     async findByUserID (user_id) {
         try {
-            return await content.find({ userID: user_id })
+            return await content.find({ userID: user_id });
+        } catch (e) {
+            console.error('error: ', e);
+        }
+    }
+
+    async findByParameterID (parameter_id) {
+        try {
+            return await content.find({ parameterID: parameter_id });
         } catch (e) {
             console.error('error: ', e);
         }
