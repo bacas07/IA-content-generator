@@ -48,7 +48,7 @@ class parameterController {
             const userID = req.user.id;
 
             if (!category || !keywords || !length) {
-                return res.status(400).json({ error: 'All fields are required' })
+                return res.status(400).json({ error: 'All fields are required' });
             }
             
             const parameter = await parameterModel.create({
@@ -64,11 +64,22 @@ class parameterController {
         }
     }
 
-    updateByID () {
+    async updateByID (req, res) {
+        try {
+            const { id } = req.params;
+            const updated_parameter = await parameterModel.updateById(id, req.body);
 
+            if (!updated_parameter) {
+                return res.status(404).json({ error: 'Parameter not found' });
+            }
+
+            return res.status(201).json({ message: 'Parameter Updated' });
+        } catch (e) {
+            return res.status(500).json({ error: 'Error updating parameter' });
+        }
     }
 
-    deleteByID () {
+    async deleteByID () {
 
     }
 }

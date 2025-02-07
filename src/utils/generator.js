@@ -1,7 +1,5 @@
 import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 import dotenv from "dotenv";
-import { application } from "express";
-import { Schema } from "mongoose";
 
 dotenv.config();
 
@@ -33,7 +31,7 @@ const model = genAI.getGenerativeModel({
     },
 });
 
-const prompt = 'escribe un articulo con title y body sobre evolucion de la celula';
+const prompt = 'escribe un articulo sobre seduccion';
 
 const generateArticle = async (prompt) => {
     try {
