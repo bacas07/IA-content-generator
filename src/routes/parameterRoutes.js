@@ -14,5 +14,6 @@ parameterRoutes.post('/create', verifyToken, (req, res) => parameterController.c
 
 parameterRoutes.put('/update/:id', verifyToken, (req, res) => parameterController.updateByID(req, res));
 
+parameterRoutes.delete('/delete/:id', verifyToken, (req, res) => parameterController.deleteByID(req, res));
 
 export default parameterRoutes;
