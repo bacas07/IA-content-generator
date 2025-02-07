@@ -12,4 +12,7 @@ parameterRoutes.get('/category/:category', verifyToken, (req, res) => parameterC
 
 parameterRoutes.post('/create', verifyToken, (req, res) => parameterController.create(req, res));
 
+parameterRoutes.put('/update/:id', verifyToken, (req, res) => parameterController.updateByID(req, res));
+
+
 export default parameterRoutes;
