@@ -42,6 +42,8 @@ class parameterController {
         }
     }
 
+    
+
     async create (req, res) {
         try {
             const { category, keywords, length } = req.body;
@@ -88,7 +90,7 @@ class parameterController {
                 return res.status(404).json({ error: 'Parameter not found' });
             }
 
-            return res.status(204).json({ error: 'Parameter deleted' })
+            return res.status(204).json({ message: 'Parameter deleted' });
         } catch (e) {
             return res.status(500).json({ error: 'Error deleting parameter' });
         }

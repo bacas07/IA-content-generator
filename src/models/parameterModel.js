@@ -25,6 +25,14 @@ class parameterModel {
         }
     }
 
+    async findByUserID (user_id) {
+        try {
+            return await parameter.find({ userID: user_id });
+        } catch (e) {
+            console.error('error: ', e);
+        }
+    }
+
     async findByCategory (category) {
         try {
             return await parameter.find({ category: category });
