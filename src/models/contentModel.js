@@ -25,6 +25,14 @@ class contentModel {
         }
     }
 
+    async findByUserID (user_id) {
+        try {
+            return await content.find({ userID: user_id })
+        } catch (e) {
+            console.error('error: ', e);
+        }
+    }
+
     async create (data) {
         try {
             const new_content = new content(data);
