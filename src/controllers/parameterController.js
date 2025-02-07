@@ -73,14 +73,25 @@ class parameterController {
                 return res.status(404).json({ error: 'Parameter not found' });
             }
 
-            return res.status(201).json({ message: 'Parameter Updated' });
+            return res.status(201).json({ message: 'Parameter updated' });
         } catch (e) {
             return res.status(500).json({ error: 'Error updating parameter' });
         }
     }
 
-    async deleteByID () {
+    async deleteByID (req, res) {
+        try {
+            const { id } =  req.params;
+            const deleted_parameter =  await parameterModel.deleteById(id);
 
+            if (!deleted_parameter) {
+                return res.status(404).json({ error: 'Parameter not found' });
+            }
+
+            return res.status(204).json({ error: 'Parameter deleted' })
+        } catch (e) {
+            return res.status(500).json({ error: 'Error deleting parameter' });
+        }
     }
 }
 
