@@ -4,7 +4,7 @@ import { connectDB } from "../config/connect.js";
 import { config } from "../config/middlewares.js";
 import userRoutes from "./routes/userRoutes.js";
 import parameterRoutes from "./routes/parameterRoutes.js";
-
+import contentRouter from "./routes/contentRoutes.js";
 
 const app = e();
 
@@ -15,8 +15,9 @@ app.get('/', (req, res) => {
     return res.status(200).json({ message: 'Hello world' });
 });
 
-app.use('/user', userRoutes)
-app.use('/parameter', parameterRoutes)
+app.use('/user', userRoutes);
+app.use('/parameter', parameterRoutes);
+app.use('/content', contentRouter);
 
 try {
     const PORT = process.env.PORT || 5000
