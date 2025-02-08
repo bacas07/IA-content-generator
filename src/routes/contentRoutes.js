@@ -12,6 +12,8 @@ contentRouter.get('/user/:id', verifyToken, (req, res) => contentController.find
 
 contentRouter.get('/parameter/:id', verifyToken, (req, res) => contentController.findByParameterID(req, res));
 
+contentRouter.get('/category/:category', verifyToken, (req, res) => contentController.findByCategory(req, res));
+
 contentRouter.post('/create/:parameter_id', verifyToken, (req, res) => contentController.create(req, res));
 
 export default contentRouter;
