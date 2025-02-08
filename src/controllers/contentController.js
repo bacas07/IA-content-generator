@@ -60,6 +60,22 @@ class contentController {
             return res.status(500).json({ error: 'Error finding content' });
         }
     }
+
+    async findByParameterID (req, res) {
+        try {
+            const { category } = req.params;
+            const content = await contentModel.findByCategory(category);
+
+            if (!content) {
+                return res.status(404).json({ error: 'Content not found for this category' });
+            }
+
+            return res.status(200).json(content);
+        } catch (e) {
+            console.error('Error: ', e);
+            return res.status(500).json({ error: 'Error finding content' });
+        }
+    }
     
     async create (req, res) {
         try {
