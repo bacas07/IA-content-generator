@@ -1,5 +1,5 @@
 import express from "express";
-import contentModel from "../models/contentModel.js";
+import contentController from "../controllers/contentController.js";
 import { verifyToken } from "../utils/auth.js";
 
 const contentRouter = express.Router();

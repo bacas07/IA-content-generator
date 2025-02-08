@@ -1,4 +1,4 @@
-import contentModel from "../models/contentModel";
+import contentModel from "../models/contentModel.js";
 import generateContent from "../utils/generator.js";
 
 class contentController {
