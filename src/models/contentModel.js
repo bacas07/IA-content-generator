@@ -41,6 +41,14 @@ class contentModel {
         }
     }
 
+    async findByCategory (category) {
+        try {
+            return await content.find({ category: category });
+        } catch (e) {
+            console.error('error: ', e);
+        }
+    }
+
     async create (data) {
         try {
             const new_content = new content(data);
