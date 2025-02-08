@@ -10,6 +10,8 @@ contentRouter.get('/:id', verifyToken, (req, res) => contentController.findByID(
 
 contentRouter.get('/user/:id', verifyToken, (req, res) => contentController.findByUserID(req, res));
 
+contentRouter.get('/parameter/:id', verifyToken, (req, res) => contentController.findByParameterID(req, res));
+
 contentRouter.post('/create/:parameter_id', verifyToken, (req, res) => contentController.create(req, res));
 
 export default contentRouter;
