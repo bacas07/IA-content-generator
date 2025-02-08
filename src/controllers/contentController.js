@@ -61,7 +61,7 @@ class contentController {
         }
     }
 
-    async findByParameterID (req, res) {
+    async findByCategory (req, res) {
         try {
             const { category } = req.params;
             const content = await contentModel.findByCategory(category);
