@@ -11,6 +11,10 @@ const contentSchema = new mongoose.Schema({
         ref: 'Parameter',
         required: true
     },
+    category: {
+        type: String,
+        required: true
+    },
     title: {
         type: String,
         required: true
