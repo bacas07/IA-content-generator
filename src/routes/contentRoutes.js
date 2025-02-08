@@ -8,7 +8,7 @@ contentRouter.get('/all', verifyToken, (req, res) => contentController.find(req,
 
 contentRouter.get('/:id', verifyToken, (req, res) => contentController.findByID(req, res));
 
-
+contentRouter.get('/user/:id', verifyToken, (req, res) => contentController.findByUserID(req, res));
 
 contentRouter.post('/create/:parameter_id', verifyToken, (req, res) => contentController.create(req, res));
 
