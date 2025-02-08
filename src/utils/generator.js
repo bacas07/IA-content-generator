@@ -1,41 +1,15 @@
-import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
-import dotenv from "dotenv";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import promptSchema from "../schemas/promptSchema.js";
+import mainPrompt from "./prompt.js";
+import AImodel from "./model.js";
 
-dotenv.config();
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const prompt = mainPrompt(['invincible comic', 'opinion general del comic', 'español'], 'Libros', 500);
 
-const schema = {
-    description: 'Article with title and body',
-    type: SchemaType.OBJECT,
-    properties: {
-        title: {
-            type: SchemaType.STRING,
-            description: 'Title of the article',
-            nullable: false
-        },
-        body: {
-            type: SchemaType.STRING,
-            description: 'Body of the article',
-            nullable: false
-        }
-    },
-    required: ['title', 'body'],
-}
-
-const model = genAI.getGenerativeModel({
-    model: 'gemini-1.5-flash',
-    generationConfig: {
-        responseMimeType: 'application/json',
-        responseSchema: schema,
-    },
-});
-
-const prompt = 'escribe un articulo sobre seduccion';
 
 const generateArticle = async (prompt) => {
     try {
-        const result = await model.generateContent(prompt);
+        const result = await AImodel.generateContent(prompt);
 
         const article = JSON.parse(result.response.text());
         console.log('Title: ', article.title);
@@ -44,5 +18,7 @@ const generateArticle = async (prompt) => {
         console.error('Error generating content: ', e )
     }
 }
+
+
 
 generateArticle(prompt);
