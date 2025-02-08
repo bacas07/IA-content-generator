@@ -1,4 +1,5 @@
 import contentModel from "../models/contentModel";
+import generateContent from "../utils/generator.js";
 
 class contentController {
 
@@ -56,7 +57,31 @@ class contentController {
             return res.status(200).json(content);
         } catch (e) {
             console.error('Error: ', e);
-            return res.status(500).json({ error: 'Error finding content' })
+            return res.status(500).json({ error: 'Error finding content' });
+        }
+    }
+    
+    async create (req, res) {
+        try {
+            const { parameter_id } = req.params;
+            const user_id = req.user.id;
+            const result = await generateContent(parameter_id);
+            
+            if (!result.title || !result.body) {
+                return res.status(500).json({ error: 'Error generating content' });
+            }
+
+            const content = await contentModel.create({
+                userID: user_id,
+                parameterID: parameter_id,
+                title: result.title,
+                body: result.body
+            });
+            
+            return res.status(201).json({ message: 'Content created' });
+        } catch (e) {
+            console.log('Error: ', e);
+            return res.status(500).json({ error: 'Error creating content' });
         }
     }
 }

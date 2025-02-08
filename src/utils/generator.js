@@ -16,10 +16,8 @@ const generateContent = async (parameter_id) => {
 
         return jsonContent;
     } catch (e) {
-        
+        console.error('Error: ', e);
     }
-
-    return jsonContent;
 }
 
 /*const generateArticle = async (prompt) => {
@@ -36,7 +34,5 @@ const generateContent = async (parameter_id) => {
         console.error('Error generating content: ', e )
     }
 }*/
-
-
 
 export default generateContent;
