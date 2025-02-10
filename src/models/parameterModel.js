@@ -9,6 +9,14 @@ class parameterModel {
         }
     }
 
+    async findUnactive () {
+        try {
+            return await user.find({ is_active: false });
+        } catch (e) {
+            console.error('error: ', e);
+        }
+    }
+
     async findById (id) {
         try {
             return await parameter.findById(id);
