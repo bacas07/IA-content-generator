@@ -60,7 +60,7 @@ class parameterModel {
 
     async deleteById (id) {
         try {
-            return await parameter.findByIdAndDelete(id);
+            return await parameter.findByIdAndUpdate(id, { is_active: false });
         } catch (e) {
             console.error('error: ', e)
         }
