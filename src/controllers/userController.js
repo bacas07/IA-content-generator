@@ -42,7 +42,7 @@ class userController {
                 return res.status(404).json({ error: 'User cannot be update or user doesnt exist' });
             }
 
-            return res.status(201).json({ 'message': 'User created' });
+            return res.status(201).json({ 'message': 'User updated' });
 
         } catch (e) {
             console.error('Error: ', e);
