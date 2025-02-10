@@ -43,7 +43,7 @@ class userModel {
 
     async deleteById (id) {
         try {
-            return await user.findByIdAndDelete(id);
+            return await user.findByIdAndUpdate(id, { is_active: false });
         } catch (e) {
             console.error('error: ', e);
         }
