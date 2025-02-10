@@ -3,7 +3,7 @@ import content from "../schemas/contentSchema.js";
 class contentModel {
     async find () {
         try {
-            return await content.find();
+            return await content.find({ is_active: true });
         } catch (e) {
             console.error('error: ', e);
         }
