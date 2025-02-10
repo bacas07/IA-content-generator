@@ -3,7 +3,7 @@ import user from "../schemas/userSchema.js";
 class userModel {
     async find () {
         try {
-            return await user.find();
+            return await user.find({ is_active: true });
         } catch (e) {
             console.error('error: ', e)
         }
