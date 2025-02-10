@@ -33,6 +33,16 @@ class userController {
         }
     }
 
+    async findUnactive (req, res) {
+        try {
+            const users = await userModel.findUnactive();
+            return res.status(200).json(users);
+        } catch (e) {
+            console.error('Error: ', e);
+            return res.status(500).json({ error: 'Error finding all unactivated users' });
+        }
+    }
+
     async updateByID (req, res) {
         try {
             const { id } = req.params;
