@@ -8,7 +8,7 @@ parameterRoutes.get('/all', verifyToken, (req, res) => parameterController.find(
 
 parameterRoutes.get('/:id', verifyToken, (req, res) => parameterController.findByID(req, res));
 
-userRoutes.get('/all/unactive', verifyToken, (req, res) => parameterController.findUnactive(req, res));
+parameterRoutes.get('/all/unactive', verifyToken, (req, res) => parameterController.findUnactive(req, res));
 
 parameterRoutes.get('/user/:id', verifyToken, (req, res) => parameterController.findByUserID(req, res));
 
