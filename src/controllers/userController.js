@@ -36,7 +36,7 @@ class userController {
     async updateByID (req, res) {
         try {
             const { id } = req.params;
-            const new_user = await userModel.updateById(id, res.body);
+            const new_user = await userModel.updateById(id, req.body);
 
             if (!new_user) {
                 return res.status(404).json({ error: 'User cannot be update or user doesnt exist' });
