@@ -100,11 +100,16 @@ class contentController {
             const content = await contentModel.create({
                 userID: user_id,
                 parameterID: parameter_id,
+                category: result.category,
                 title: result.title,
                 body: result.body
             });
+
+            if (!content) {
+                return res.status(500).json({ error: 'Error generating content' }); 
+            }
             
-            return res.status(201).json({ message: 'Content created' });
+            return res.status(201).json(content);
         } catch (e) {
             console.log('Error: ', e);
             return res.status(500).json({ error: 'Error creating content' });

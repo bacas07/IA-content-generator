@@ -10,6 +10,7 @@ const generateContent = async (parameter_id) => {
         const content = JSON.parse(result.response.text());
         
         const jsonContent = {
+            category: parameter.category,
             title: content.title,
             body: content.body
         }
