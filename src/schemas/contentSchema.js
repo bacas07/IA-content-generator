@@ -22,6 +22,10 @@ const contentSchema = new mongoose.Schema({
     body: {
         type: String,
         required: true
+    },
+    is_active: {
+        type: Boolean,
+        default: true
     }
 }, {
     timestamps: true
