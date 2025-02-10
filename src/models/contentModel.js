@@ -68,7 +68,7 @@ class contentModel {
 
     async deleteById (id) {
         try {
-            return await content.findByIdAndDelete(id);
+            return await content.findByIdAndUpdate(id, { is_active: false });
         } catch (e) {
             console.error('error: ', e)
         }
