@@ -41,7 +41,7 @@ class userModel {
         }
     }
 
-    async deleteById (id, data) {
+    async deleteById (id) {
         try {
             return await user.findByIdAndDelete(id);
         } catch (e) {
