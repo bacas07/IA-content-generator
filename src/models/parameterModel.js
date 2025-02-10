@@ -3,7 +3,7 @@ import parameter from "../schemas/parameterSchema.js";
 class parameterModel {
     async find () {
         try {
-            return await parameter.find();
+            return await parameter.find({ is_active: true });
         } catch (e) {
             console.error('error: ', e);
         }
