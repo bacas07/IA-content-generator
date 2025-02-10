@@ -8,6 +8,8 @@ contentRouter.get('/all', verifyToken, (req, res) => contentController.find(req,
 
 contentRouter.get('/:id', verifyToken, (req, res) => contentController.findByID(req, res));
 
+userRoutes.get('/all/unactive', verifyToken, (req, res) => contentController.findUnactive(req, res));
+
 contentRouter.get('/user/:id', verifyToken, (req, res) => contentController.findByUserID(req, res));
 
 contentRouter.get('/parameter/:id', verifyToken, (req, res) => contentController.findByParameterID(req, res));
