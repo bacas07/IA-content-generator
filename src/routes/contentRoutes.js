@@ -18,4 +18,5 @@ contentRoutes.get('/category/:category', verifyToken, (req, res) => contentContr
 
 contentRoutes.post('/create/:parameter_id', verifyToken, (req, res) => contentController.create(req, res));
 
+
 export default contentRoutes;

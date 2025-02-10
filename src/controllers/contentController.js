@@ -115,6 +115,23 @@ class contentController {
             return res.status(500).json({ error: 'Error creating content' });
         }
     }
+
+    async deleteByID (req, res) {
+            try {
+                const { id } = req.params;
+                const deleted_content = await contentModel.deleteById(id);
+                
+                if (!deleted_content) {
+                    return res.status(404).json({ error: 'Content cannot be delete or user doesnt exist' });
+                }
+    
+                return res.status(204).json({ message: 'Content deleted' });
+    
+            } catch (e) {
+                console.error('Error: ', e);
+                return res.status(500).json({ error: 'Error deleting content' });
+            }
+        }
 }
 
 export default new contentController();
