@@ -14,6 +14,10 @@ const parameterSchema = mongoose.Schema({
     length: {
         type: Number,
         required: true
+    },
+    is_active: {
+        type: Boolean,
+        default: true
     }
 }, {
     timestamps: true
