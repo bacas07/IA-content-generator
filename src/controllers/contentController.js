@@ -29,6 +29,16 @@ class contentController {
         }
     }
 
+    async findUnactive (req, res) {
+            try {
+                const content = await contentModel.findUnactive();
+                return res.status(200).json(content);
+            } catch (e) {
+                console.error('Error: ', e);
+                return res.status(500).json({ error: 'Error finding all unactivated content' });
+            }
+        }
+
     async findByUserID (req, res) {
         try {
             const { id } = req.params;
