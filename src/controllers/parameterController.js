@@ -28,6 +28,16 @@ class parameterController {
         }
     }
 
+    async findUnactive (req, res) {
+            try {
+                const parameters = await parameterModel.findUnactive();
+                return res.status(200).json(parameters);
+            } catch (e) {
+                console.error('Error: ', e);
+                return res.status(500).json({ error: 'Error finding all unactivated parameters' });
+            }
+        }
+
     async findByUserID (req, res) {
         try {
             const { id } = req.params;
