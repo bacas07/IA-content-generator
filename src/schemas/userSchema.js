@@ -23,6 +23,16 @@ const userSchema = new mongoose.Schema({
     is_active: {
         type: Boolean,
         default: true
+    },
+    parameters_created: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
+    content_created: {
+        type: Number,
+        default: 0,
+        min: 0
     }
 }, {
     timestamps: true
