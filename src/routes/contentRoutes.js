@@ -18,5 +18,6 @@ contentRoutes.get('/category/:category', verifyToken, (req, res) => contentContr
 
 contentRoutes.post('/create/:parameter_id', verifyToken, (req, res) => contentController.create(req, res));
 
+contentRoutes.delete('/delete/:id', verifyToken, (req, res) => contentController.deleteByID(req, res));
 
 export default contentRoutes;

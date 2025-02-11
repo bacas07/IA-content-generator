@@ -11,7 +11,7 @@ class contentModel {
 
     async findUnactive () {
         try {
-            return await user.find({ is_active: false });
+            return await content.find({ is_active: false });
         } catch (e) {
             console.error('error: ', e);
         }
