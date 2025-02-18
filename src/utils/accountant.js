@@ -11,6 +11,7 @@ export const parameterAccountant = async (user_id) => {
 
         var parameters_created = user.parameters_created;
         parameters_created += 1;
+
         const userAccountant = userModel.updateById(user_id, { parameters_created: parameters_created });
 
         if (!userAccountant) {
@@ -32,8 +33,10 @@ export const contentAccountant = async (user_id, parameter_id) => {
             throw new Error('User not found');
         }
 
-        user.content_created += 1;
-        const userAccountant = userModel.updateById(user_id, { content_created: user.content_created });
+        var user_content_created = user.content_created;
+        user_content_created += 1;
+
+        const userAccountant = userModel.updateById(user_id, { content_created: user_content_created });
         
         const parameter = await parameterModel.findById(parameter_id);
 
@@ -41,8 +44,10 @@ export const contentAccountant = async (user_id, parameter_id) => {
             throw new Error('Parameter not found');
         }
 
-        parameter.content_created += 1;
-        const parameterAccountant = parameterModel(parameter_id, { content_created: parameter.content_created })
+        var parameter_content_created = parameter.content_created;
+        parameter_content_created += 1;
+
+        const parameterAccountant = parameterModel(parameter_id, { content_created: parameter_content_created })
 
         if (!userAccountant || !parameterAccountant) {
             return null;
