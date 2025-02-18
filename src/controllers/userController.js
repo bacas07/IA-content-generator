@@ -92,12 +92,17 @@ class userController {
             }
 
             const hashed_password = await hash(password);
+
             const new_user = await userModel.create({
                 username,
                 email,
                 password: hashed_password,
                 role
             })
+
+            if (!new_user) {
+                return res.status(500).json({ error: 'Error creating user' }); 
+            }
 
             return res.status(201).json({ message: 'User created' });
         } catch (e) {
