@@ -97,7 +97,7 @@ class parameterController {
                 return res.status(500).json({ error: 'Error updating parameter accountant' });
             }
 
-            return res.status(201).json({ message: 'Parameter created' });
+            return res.status(201).json(parameter);
         } catch (e) {
             console.error('Error: ', e);
             return res.status(500).json({ error: 'Error creating parameter' });

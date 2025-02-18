@@ -1,4 +1,6 @@
 import contentModel from "../models/contentModel.js";
+import user from "../schemas/userSchema.js";
+import { contentAccountant } from "../utils/accountant.js";
 import generateContent from "../utils/generator.js";
 
 class contentController {
@@ -107,6 +109,12 @@ class contentController {
 
             if (!content) {
                 return res.status(500).json({ error: 'Error generating content' }); 
+            }
+
+            const accountant = contentAccountant(req.user.id, parameter_id);
+
+            if (!accountant) {
+                return res.status(500).json({ error: 'Error updating content accountant' });
             }
             
             return res.status(201).json(content);
