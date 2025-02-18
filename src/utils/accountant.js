@@ -47,7 +47,7 @@ export const contentAccountant = async (user_id, parameter_id) => {
         var parameter_content_created = parameter.content_created;
         parameter_content_created += 1;
 
-        const parameterAccountant = parameterModel(parameter_id, { content_created: parameter_content_created })
+        const parameterAccountant = parameterModel.updateById(parameter_id, { content_created: parameter_content_created })
 
         if (!userAccountant || !parameterAccountant) {
             return null;
