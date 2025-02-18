@@ -87,16 +87,14 @@ class parameterController {
                 length
             });
 
+            if (!parameter) {
+                return res.status(500).json({ error: 'Error creating parameters' });
+            }
 
-            try {
-                const accountant = await parameterAccountant(req.user.id);
+            const accountant = await parameterAccountant(req.user.id);
 
             if (!accountant) {
                 return res.status(500).json({ error: 'Error updating parameter accountant' });
-            }
-            
-            } catch (error) {
-                console.error('Error: ', e);
             }
 
             return res.status(201).json({ message: 'Parameter created' });
