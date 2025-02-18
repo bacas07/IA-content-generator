@@ -9,7 +9,8 @@ export const parameterAccountant = async (user_id) => {
             throw new Error('User not found');
         }
 
-        user.parameters_created += 1;
+        var parameters_created = user.parameters_created;
+        parameters_created += 1;
         const userAccountant = userModel.updateById(user_id, { parameters_created: parameters_created });
 
         if (!userAccountant) {
