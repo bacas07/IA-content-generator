@@ -1,7 +1,7 @@
 import userModel from "../models/userModel.js";
 import { hash, verify } from "argon2";
 import dotenv from "dotenv";
-import { generateToken } from "../utils/auth.js";
+import { generateToken, validateRole } from "../utils/auth.js";
 
 dotenv.config();
 
@@ -79,7 +79,7 @@ class userController {
 
     async register (req, res) {
         try {
-            const { username, email, password, role } = req.body;
+            const { username, email, password, role, secrect_key } = req.body;
             const user_exist = await userModel.findOne({
                 $or: [
                     { username: username },
@@ -90,6 +90,8 @@ class userController {
             if (user_exist) {
                 return res.status(401).json({ error: 'User already exists' });
             }
+
+            const validateRole = await validateRole(role, secrect_key);
 
             const hashed_password = await hash(password);
 
