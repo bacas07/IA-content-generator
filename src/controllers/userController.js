@@ -5,130 +5,122 @@ import { generateToken } from "../utils/auth.js";
 
 dotenv.config();
 
-class userController {
-
-    async find (req, res) {
+class UserController {
+    async find(req, res) {
         try {
-            const users = await userModel.find();
+            const users = await userModel.find().lean();
             return res.status(200).json(users);
-        } catch (e) {
-            console.error('Error: ', e);
-            return res.status(500).json({ error: 'Error finding all users' });
+        } catch (error) {
+            console.error("Error finding all users:", error);
+            return res.status(500).json({ error: "Error retrieving users" });
         }
     }
 
-    async findByID (req, res) {
+    async findByID(req, res) {
         try {
             const { id } = req.params;
-            const user = await userModel.findById(id);
+            const user = await userModel.findById(id).lean();
 
             if (!user) {
-                return res.status(404).json({ error: 'User dont exist' });
+                return res.status(404).json({ error: "User does not exist" });
             }
 
             return res.status(200).json(user);
-        } catch (e) {
-            console.error('Error: ', e);
-            return res.status(500).json({ error: 'Error finding user' })
+        } catch (error) {
+            console.error("Error finding user by ID:", error);
+            return res.status(500).json({ error: "Error retrieving user" });
         }
     }
 
-    async updateByID (req, res) {
+    async updateByID(req, res) {
         try {
             const { id } = req.params;
-            const new_user = await userModel.updateById(id, res.body);
+            const updatedUser = await userModel.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }).lean();
 
-            if (!new_user) {
-                return res.status(404).json({ error: 'User cannot be update or user doesnt exist' });
+            if (!updatedUser) {
+                return res.status(404).json({ error: "User not found or could not be updated" });
             }
 
-            return res.status(201).json({ 'message': 'User created' });
-
-        } catch (e) {
-            console.error('Error: ', e);
-            return res.status(500).json({ error: 'Error updating user' });
+            return res.status(200).json({ message: "User updated successfully" });
+        } catch (error) {
+            console.error("Error updating user:", error);
+            return res.status(500).json({ error: "Error updating user" });
         }
     }
 
-    async deleteByID (req, res) {
+    async deleteByID(req, res) {
         try {
             const { id } = req.params;
-            const deleted_user = await userModel.deleteById(id);
-            
-            if (!deleted_user) {
-                return res.status(404).json({ error: 'User cannot be delete or user doesnt exist' });
+            const deletedUser = await userModel.findByIdAndDelete(id).lean();
+
+            if (!deletedUser) {
+                return res.status(404).json({ error: "User not found or could not be deleted" });
             }
 
-            return res.status(204).json({ message: 'User deleted' });
-
-        } catch (e) {
-            console.error('Error: ', e);
-            return res.status(500).json({ error: 'Error deleting user' });
+            return res.status(204).send();
+        } catch (error) {
+            console.error("Error deleting user:", error);
+            return res.status(500).json({ error: "Error deleting user" });
         }
     }
 
-    async register (req, res) {
+    async register(req, res) {
         try {
             const { username, email, password, role } = req.body;
-            const user_exist = await userModel.findOne({
-                $or: [
-                    { username: username },
-                    { email: email }
-                ]
-            });
+            
+            if (!username || !email || !password || !role) {
+                return res.status(400).json({ error: "All fields are required" });
+            }
+            
+            const userExists = await userModel.findOne({ $or: [{ username }, { email }] });
 
-            if (user_exist) {
-                return res.status(401).json({ error: 'User already exists' });
+            if (userExists) {
+                return res.status(409).json({ error: "User already exists" });
             }
 
-            const hashed_password = await hash(password);
-            const new_user = await userModel.create({
-                username,
-                email,
-                password: hashed_password,
-                role
-            })
+            const hashedPassword = await hash(password);
+            await userModel.create({ username, email, password: hashedPassword, role });
 
-            return res.status(201).json({ message: 'User created' });
-        } catch (e) {
-            console.error('Error: ', e);
-            return res.status(500).json({ error: 'Error creating user' });
+            return res.status(201).json({ message: "User registered successfully" });
+        } catch (error) {
+            console.error("Error registering user:", error);
+            return res.status(500).json({ error: "Error registering user" });
         }
     }
 
-    async login (req, res) {
+    async login(req, res) {
         try {
             const { username, email, password } = req.body;
-            const user_exist = await userModel.findOne({
-                $or: [
-                    { username: username },
-                    { email: email }
-                ]
-            });
+            
+            if ((!username && !email) || !password) {
+                return res.status(400).json({ error: "Username/email and password are required" });
+            }
+            
+            const user = await userModel.findOne({ $or: [{ username }, { email }] });
 
-            if (!user_exist) {
-                return res.status(404).json({ error: 'User doesnt exist' });
+            if (!user) {
+                return res.status(404).json({ error: "User does not exist" });
             }
 
-            const password_is_valid = await verify(user_exist.password, password);
+            const isPasswordValid = await verify(user.password, password);
 
-            if (!password_is_valid) {
-                return res.status(401).json({ error: 'Unvalid password' });
+            if (!isPasswordValid) {
+                return res.status(401).json({ error: "Invalid password" });
             }
 
             const token = generateToken({
-                id: user_exist.id,
-                username: user_exist.username,
-                email: user_exist.email,
-                role: user_exist.role,
-            })
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+            });
 
-            return res.status(200).json({ message: 'User logged', token });
-        } catch (e) {
-            console.error('Error: ', e);
-            return res.status(500).json({ error: 'Error loggining user' });
+            return res.status(200).json({ message: "User logged in successfully", token });
+        } catch (error) {
+            console.error("Error logging in user:", error);
+            return res.status(500).json({ error: "Error logging in user" });
         }
     }
 }
 
-export default new userController();
+export default new UserController();

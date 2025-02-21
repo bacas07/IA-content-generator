@@ -1,53 +1,63 @@
 import user from "../schemas/userSchema.js";
 
-class userModel {
-    async find () {
+class UserModel {
+    async find() {
         try {
-            return await user.find();
+            return await user.find().lean();
         } catch (e) {
-            console.error('error: ', e)
+            console.error('Error fetching users:', e);
+            throw new Error('Database error while fetching users');
         }
     }
 
-    async findById (id) {
+    async findById(id) {
         try {
-            return await user.findById(id);
+            return await user.findById(id).lean();
         } catch (e) {
-            console.error('error: ', e);
+            console.error('Error fetching user by ID:', e);
+            throw new Error('Database error while fetching user by ID');
         }
     }
 
-    async findOne (filter) {
+    async findOne(filter) {
         try {
-            return await user.findOne(filter);
+            return await user.findOne(filter).lean();
         } catch (e) {
-            console.error('error: ', e);
+            console.error('Error fetching single user:', e);
+            throw new Error('Database error while fetching single user');
         }
     }
 
-    async create (data) {
+    async create(data) {
         try {
             return await user.create(data);    
         } catch (e) {
-            console.error('error: ', e);
+            console.error('Error creating user:', e);
+            throw new Error('Database error while creating user');
         }
     }
 
-    async updateById (id, data) {
+    async updateById(id, data) {
         try {
-            return await user.findByIdAndUpdate(id, data, { new: true });
+            const updatedUser = await user.findByIdAndUpdate(id, data, { new: true, lean: true });
+            if (!updatedUser) throw new Error('User not found');
+            return updatedUser;
         } catch (e) {
-            console.error('error: ', e);
+            console.error('Error updating user:', e);
+            throw new Error('Database error while updating user');
         }
     }
 
-    async deleteById (id, data) {
+    async deleteById(id) {
         try {
-            return await user.findByIdAndDelete(id);
+            const deletedUser = await user.findByIdAndDelete(id);
+            if (!deletedUser) throw new Error('User not found');
+            return deletedUser;
         } catch (e) {
-            console.error('error: ', e);
+            console.error('Error deleting user:', e);
+            throw new Error('Database error while deleting user');
         }
     }
 }
 
-export default new userModel();
+export default new UserModel();

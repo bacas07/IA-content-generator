@@ -2,20 +2,19 @@ import express from "express";
 import parameterController from "../controllers/parameterController.js";
 import { verifyToken } from "../utils/auth.js";
 
-const parameterRoutes = express.Router();
+const parameterRouter = express.Router();
 
-parameterRoutes.get('/all', verifyToken, (req, res) => parameterController.find(req, res));
+parameterRouter.use(verifyToken); // Aplica el middleware a todas las rutas
 
-parameterRoutes.get('/:id', verifyToken, (req, res) => parameterController.findByID(req, res));
+// Rutas de obtención de parámetros
+parameterRouter.route('/all').get(parameterController.find.bind(parameterController));
+parameterRouter.route('/:id').get(parameterController.findByID.bind(parameterController));
+parameterRouter.route('/user/:id').get(parameterController.findByUserID.bind(parameterController));
+parameterRouter.route('/category/:category').get(parameterController.findByCategory.bind(parameterController));
 
-parameterRoutes.get('/user/:id', verifyToken, (req, res) => parameterController.findByUserID(req, res));
+// Rutas de manipulación de parámetros
+parameterRouter.route('/create').post(parameterController.create.bind(parameterController));
+parameterRouter.route('/update/:id').put(parameterController.updateByID.bind(parameterController));
+parameterRouter.route('/delete/:id').delete(parameterController.deleteByID.bind(parameterController));
 
-parameterRoutes.get('/category/:category', verifyToken, (req, res) => parameterController.findByCategory(req, res));
-
-parameterRoutes.post('/create', verifyToken, (req, res) => parameterController.create(req, res));
-
-parameterRoutes.put('/update/:id', verifyToken, (req, res) => parameterController.updateByID(req, res));
-
-parameterRoutes.delete('/delete/:id', verifyToken, (req, res) => parameterController.deleteByID(req, res));
-
-export default parameterRoutes;
+export default parameterRouter;

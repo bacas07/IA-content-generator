@@ -1,38 +1,35 @@
 import mainPrompt from "./prompt.js";
 import AImodel from "./model.js";
-import parameterModel from "../models/parameterModel.js"
+import parameterModel from "../models/parameterModel.js";
 
 const generateContent = async (parameter_id) => {
     try {
+        // Obtener el parámetro desde la base de datos
         const parameter = await parameterModel.findById(parameter_id);
-        const prompt = mainPrompt(parameter.keywords, parameter.category, parameter.length);
+        if (!parameter) {
+            throw new Error(`Parameter with ID ${parameter_id} not found`);
+        }
+
+        // Generar el prompt basado en los datos obtenidos
+        const prompt = mainPrompt(parameter?.keywords, parameter?.category, parameter?.length);
         const result = await AImodel.generateContent(prompt);
-        const content = JSON.parse(result.response.text());
         
-        const jsonContent = {
-            title: content.title,
-            body: content.body
+        // Asegurar que la respuesta es válida antes de continuar
+        if (!result || !result.response) {
+            throw new Error("Invalid response from AI model");
         }
 
-        return jsonContent;
-    } catch (e) {
-        console.error('Error: ', e);
-    }
-}
+        // Procesar el contenido generado
+        const content = JSON.parse(await result.response.text());
 
-/*const generateArticle = async (prompt) => {
-    try {
-        const result = await AImodel.generateContent(prompt);
-        const content = JSON.parse(result.response.text());
-        const jsonContent = {
+        return {
             title: content.title,
             body: content.body
-        }
-        console.log(jsonContent.title);
-        console.log(jsonContent.body)
+        };
     } catch (e) {
-        console.error('Error generating content: ', e )
+        console.error("Error generating content:", e.message);
+        throw new Error("Failed to generate content"); // Lanzar error para que pueda ser manejado externamente
     }
-}*/
+};
 
 export default generateContent;

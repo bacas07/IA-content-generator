@@ -2,18 +2,19 @@ import express from "express";
 import userController from "../controllers/userController.js";
 import { verifyToken } from "../utils/auth.js";
 
-const userRoutes = express.Router();
+const userRouter = express.Router();
 
-userRoutes.get('/all', verifyToken, (req, res) => userController.find(req, res));
+// Rutas de autenticación (sin verificación de token)
+userRouter.post('/register', userController.register.bind(userController));
+userRouter.post('/log', userController.login.bind(userController));
 
-userRoutes.get('/:id', verifyToken, (req, res) => userController.findByID(req, res));
+// Aplicar verifyToken a todas las rutas protegidas
+userRouter.use(verifyToken);
 
-userRoutes.put('/update/:id', verifyToken, (req, res) => userController.updateByID(req, res));
+// Rutas protegidas
+userRouter.route('/all').get(userController.find.bind(userController));
+userRouter.route('/:id').get(userController.findByID.bind(userController));
+userRouter.route('/update/:id').put(userController.updateByID.bind(userController));
+userRouter.route('/delete/:id').delete(userController.deleteByID.bind(userController));
 
-userRoutes.delete('/delete/:id', verifyToken, (req, res) => userController.deleteByID(req, res));
-
-userRoutes.post('/register', (req, res) => userController.register(req, res));
-
-userRoutes.post('/log', (req, res) => userController.login(req, res));
-
-export default userRoutes;
+export default userRouter;

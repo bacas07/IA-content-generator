@@ -4,16 +4,16 @@ import { verifyToken } from "../utils/auth.js";
 
 const contentRouter = express.Router();
 
-contentRouter.get('/all', verifyToken, (req, res) => contentController.find(req, res));
+contentRouter.use(verifyToken); // Aplica el middleware a todas las rutas
 
-contentRouter.get('/:id', verifyToken, (req, res) => contentController.findByID(req, res));
+// Rutas de obtención de contenido
+contentRouter.route('/all').get(contentController.find.bind(contentController));
+contentRouter.route('/:id').get(contentController.findByID.bind(contentController));
+contentRouter.route('/user/:id').get(contentController.findByUserID.bind(contentController));
+contentRouter.route('/parameter/:id').get(contentController.findByParameterID.bind(contentController));
+contentRouter.route('/category/:category').get(contentController.findByCategory.bind(contentController));
 
-contentRouter.get('/user/:id', verifyToken, (req, res) => contentController.findByUserID(req, res));
-
-contentRouter.get('/parameter/:id', verifyToken, (req, res) => contentController.findByParameterID(req, res));
-
-contentRouter.get('/category/:category', verifyToken, (req, res) => contentController.findByCategory(req, res));
-
-contentRouter.post('/create/:parameter_id', verifyToken, (req, res) => contentController.create(req, res));
+// Ruta para creación de contenido
+contentRouter.route('/create/:parameter_id').post(contentController.create.bind(contentController));
 
 export default contentRouter;
