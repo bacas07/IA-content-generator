@@ -1,7 +1,7 @@
 import contentModel from "../models/contentModel.js";
 import user from "../schemas/userSchema.js";
 import { contentAccountant } from "../utils/accountant.js";
-import generateContent from "../utils/generator.js";
+import generateContent from "../utils/generator.js"; //
 
 class contentController {
 
