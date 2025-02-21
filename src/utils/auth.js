@@ -96,3 +96,21 @@ export const validateCategory = (category) => {
 
     return false
 }
+
+export const validateApiKey = (req, res, next) => {
+    try {
+        const api_key = req.headers['x-api-key'];
+
+        if (!api_key) {
+            return res.status(401).json({ error: 'API key required' });
+        }
+
+        if (api_key !== process.env.API_KEY) {
+            return res.status(401).json({ error: 'Invalid API key' });
+        }
+
+        next();
+    } catch (e) {
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+}
