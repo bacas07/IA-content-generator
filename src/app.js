@@ -5,14 +5,15 @@ import { config } from "../config/middlewares.js";
 import userRoutes from "./routes/userRoutes.js";
 import parameterRoutes from "./routes/parameterRoutes.js";
 import contentRouter from "./routes/contentRoutes.js";
+import { verifyApiKey } from "./utils/auth.js";
 
 const app = e();
 
 app.use(bodyParser.json());
 config(app);
 
-app.get('/', (req, res) => {
-    return res.status(200).json({ message: 'Hello world' });
+app.get('/', verifyApiKey, (req, res) => {
+    return res.status(200).json({ message: 'AI Content Generator API' });
 });
 
 app.use('/user', userRoutes);
