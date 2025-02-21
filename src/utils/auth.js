@@ -97,7 +97,7 @@ export const validateCategory = (category) => {
     return false
 }
 
-export const validateApiKey = (req, res, next) => {
+export const verifyApiKey = (req, res, next) => {
     try {
         const api_key = req.headers['x-api-key'];
 
