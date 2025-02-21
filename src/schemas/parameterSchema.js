@@ -8,7 +8,19 @@ const parameterSchema = mongoose.Schema({
     },
     category: {
         type: String,
-        required: true
+        required: true,
+        enum: [
+            "Noticias y Actualidad",
+            "Entretenimiento",
+            "Tecnología",
+            "Ciencia y Salud",
+            "Negocios y Finanzas",
+            "Viajes",
+            "Moda y Estilo de Vida",
+            "Educación",
+            "Deportes",
+            "Hogar y Jardinería"
+        ]
     },
     keywords: [String],
     length: {
