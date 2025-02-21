@@ -44,13 +44,37 @@ export const permit = (...allowedRoles) => {
             const { role } = req.user;
             console.log(role);
             console.log(allowedRoles);
+
             if (allowedRoles.includes(role)) {
                 next();
             } else {
                 res.status(403).json({ error: 'Forbidden: You do not have the necessary permissions' });
             }
+
         };
     } catch (e) {
         return res.status(500).json({ error: 'Internal server error' });
     }
+}
+
+export const validateRole = (role, secrect_key) => {
+    try {
+
+        if (role == 'admin' && secrect_key != process.env.ADMIN_KEY) {
+            return res.status(401).json({ error: 'Invalid admin secrect key' });
+        }
+    
+        if (role == 'developer' && secrect_key != process.env.DEVELOPER_KEY) {
+            return res.status(401).json({ error: 'Invalid developer secret key' });
+        }
+    
+        if (role != 'admin' || role != 'developer') {
+            return res.status(401).json({ error: 'Invalid role' });
+        }
+
+    } catch (e) {
+        return res.status(500).json({ error: 'Error validating role' });
+    }
+
+    
 }
