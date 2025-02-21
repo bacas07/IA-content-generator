@@ -23,6 +23,12 @@ const userSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
+userSchema.set('toJSON', {
+    transform: function (doc, ret){
+        delete ret.__v;
+        return ret;
+    }
+});
 
 const user = mongoose.model('User', userSchema);
 export default user;
