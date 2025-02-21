@@ -14,8 +14,8 @@ userRoutes.put('/update/:id', verifyToken, permit('admin'), (req, res) => userCo
 
 userRoutes.delete('/delete/:id', verifyToken, permit('admin'),(req, res) => userController.deleteByID(req, res));
 
-userRoutes.post('/register', permit('admin', 'developer', 'user'), (req, res) => userController.register(req, res));
+userRoutes.post('/register', (req, res) => userController.register(req, res));
 
-userRoutes.post('/log', permit('admin', 'developer', 'admin'), (req, res) => userController.login(req, res));
+userRoutes.post('/log', (req, res) => userController.login(req, res));
 
 export default userRoutes;
