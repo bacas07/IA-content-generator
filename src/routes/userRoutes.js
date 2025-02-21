@@ -1,10 +1,10 @@
 import express from "express";
 import userController from "../controllers/userController.js";
-import { verifyToken } from "../utils/auth.js";
+import { verifyToken, permit } from "../utils/auth.js";
 
 const userRoutes = express.Router();
 
-userRoutes.get('/all', verifyToken, (req, res) => userController.find(req, res));
+userRoutes.get('/all', verifyToken, permit('admin', 'develop'), (req, res) => userController.find(req, res));
 
 userRoutes.get('/:id', verifyToken, (req, res) => userController.findByID(req, res));
 
