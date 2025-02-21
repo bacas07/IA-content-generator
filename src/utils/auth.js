@@ -75,3 +75,24 @@ export const validateRole = (role, secret_key) => {
         return true;
     }
 }
+
+export const validateCategory = (category) => {
+    const categories = [
+        "Noticias y Actualidad",
+        "Entretenimiento",
+        "Tecnología",
+        "Ciencia y Salud",
+        "Negocios y Finanzas",
+        "Viajes",
+        "Moda y Estilo de Vida",
+        "Educación",
+        "Deportes",
+        "Hogar y Jardinería",
+    ]
+
+    if (categories.includes(category)) {
+        return true
+    }
+
+    return false
+}
