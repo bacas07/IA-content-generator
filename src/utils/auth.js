@@ -75,6 +75,4 @@ export const validateRole = (role, secrect_key) => {
     } catch (e) {
         return res.status(500).json({ error: 'Error validating role' });
     }
-
-    
 }
