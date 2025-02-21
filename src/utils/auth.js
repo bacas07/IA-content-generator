@@ -57,22 +57,21 @@ export const permit = (...allowedRoles) => {
     }
 }
 
-export const validateRole = (role, secrect_key) => {
-    try {
+export const validateRole = (role, secret_key) => {
 
-        if (role == 'admin' && secrect_key != process.env.ADMIN_KEY) {
-            return res.status(401).json({ error: 'Invalid admin secrect key' });
-        }
-    
-        if (role == 'developer' && secrect_key != process.env.DEVELOPER_KEY) {
-            return res.status(401).json({ error: 'Invalid developer secret key' });
-        }
-    
-        if (role != 'admin' || role != 'developer') {
-            return res.status(401).json({ error: 'Invalid role' });
-        }
+    if (role !== 'admin' && role !== 'developer' && role !== 'user') {
+        return false;
+    }
 
-    } catch (e) {
-        return res.status(500).json({ error: 'Error validating role' });
+    if (role === 'admin' && secret_key === process.env.ADMIN_KEY ) {
+        return true;
+    }
+
+    if (role === 'developer' && secret_key === process.env.DEVELOPER_KEY) {
+        return true;
+    }
+
+    if (role === 'user') {
+        return true;
     }
 }

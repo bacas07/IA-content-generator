@@ -79,7 +79,7 @@ class userController {
 
     async register (req, res) {
         try {
-            const { username, email, password, role, secrect_key } = req.body;
+            const { username, email, password, role, secret_key } = req.body;
             const user_exist = await userModel.findOne({
                 $or: [
                     { username: username },
@@ -91,7 +91,11 @@ class userController {
                 return res.status(401).json({ error: 'User already exists' });
             }
 
-            const validateRole = await validateRole(role, secrect_key);
+            const validatingRole = await validateRole(role, secret_key);
+
+            if (!validatingRole) {
+                return res.status(401).json({ error: 'Error validating role' });
+            }
 
             const hashed_password = await hash(password);
 
