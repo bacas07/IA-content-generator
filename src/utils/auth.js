@@ -37,3 +37,21 @@ export const verifyToken =  (req, res, next) => {
         return res.status(401).json({ error: 'Invalid token' });
     }
 }
+
+export const permit = (...allowedRoles) => {
+    try {
+        return (req, res, next) => {
+            const { role } = req.user;
+            console.log(role);
+            console.log(allowedRoles);
+            if (allowedRoles.includes(role)) {
+                next();
+            } else {
+                res.status(403).json({ error: 'Forbidden: You do not have the necessary permissions' });
+            }
+        };
+    } catch (e) {
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+    
+};
