@@ -1,5 +1,6 @@
 import parameterModel from "../models/parameterModel.js";
 import { parameterAccountant } from "../utils/accountant.js";
+import { validateCategory } from "../utils/auth.js";
 
 class parameterController {
 
@@ -78,6 +79,12 @@ class parameterController {
 
             if (!category || !keywords || !length) {
                 return res.status(400).json({ error: 'All fields are required' });
+            }
+
+            const validatingCategory = await validateCategory(category);
+            
+            if (!validatingCategory) {
+                return res.status(400).json({ error: 'Category doesnt exist' });
             }
             
             const parameter = await parameterModel.create({
