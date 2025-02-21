@@ -4,18 +4,18 @@ import { verifyToken, permit } from "../utils/auth.js";
 
 const userRoutes = express.Router();
 
-userRoutes.get('/all', verifyToken, permit('admin', 'develop'), (req, res) => userController.find(req, res));
+userRoutes.get('/all', verifyToken, permit('admin', 'developer'), (req, res) => userController.find(req, res));
 
-userRoutes.get('/:id', verifyToken, (req, res) => userController.findByID(req, res));
+userRoutes.get('/:id', verifyToken, permit('admin', 'developer'), (req, res) => userController.findByID(req, res));
 
-userRoutes.get('/all/unactive', verifyToken, (req, res) => userController.findUnactive(req, res));
+userRoutes.get('/all/unactive', verifyToken, permit('admin', 'developer'), (req, res) => userController.findUnactive(req, res));
 
-userRoutes.put('/update/:id', verifyToken, (req, res) => userController.updateByID(req, res));
+userRoutes.put('/update/:id', verifyToken, permit('admin'), (req, res) => userController.updateByID(req, res));
 
-userRoutes.delete('/delete/:id', verifyToken, (req, res) => userController.deleteByID(req, res));
+userRoutes.delete('/delete/:id', verifyToken, permit('admin'),(req, res) => userController.deleteByID(req, res));
 
-userRoutes.post('/register', (req, res) => userController.register(req, res));
+userRoutes.post('/register', permit('admin', 'developer', 'user'), (req, res) => userController.register(req, res));
 
-userRoutes.post('/log', (req, res) => userController.login(req, res));
+userRoutes.post('/log', permit('admin', 'developer', 'admin'), (req, res) => userController.login(req, res));
 
 export default userRoutes;
