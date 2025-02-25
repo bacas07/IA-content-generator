@@ -1,5 +1,6 @@
 import jsonwebtoken from "jsonwebtoken";
 import dotenv from "dotenv";
+import userModel from "../models/userModel.js";
 
 dotenv.config();
 
@@ -114,3 +115,19 @@ export const verifyApiKey = (req, res, next) => {
         return res.status(500).json({ error: 'Internal server error' });
     }
 }
+
+export const findingUser = async (username, email) => {
+    try {
+        if (username) {
+            const user = await userModel.findOne({ username: username });
+            return user;
+        } else if (email) {
+            const user = await userModel.findOne({ email: email });
+            return user;
+        }
+    } catch (e) {
+        console.error('Error: ', e);
+        throw error;
+    }
+  };
+  

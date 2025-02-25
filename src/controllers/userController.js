@@ -1,7 +1,7 @@
 import userModel from "../models/userModel.js";
 import { hash, verify } from "argon2";
 import dotenv from "dotenv";
-import { generateToken, validateRole } from "../utils/auth.js";
+import { generateToken, validateRole, findingUser } from "../utils/auth.js";
 
 dotenv.config();
 
@@ -120,12 +120,10 @@ class userController {
     async login (req, res) {
         try {
             const { username, email, password } = req.body;
-            const user_exist = await userModel.findOne({
-                $or: [
-                    { username: username },
-                    { email: email }
-                ]
-            });
+
+            
+
+            const user_exist = await findingUser(username, email);
 
             if (!user_exist) {
                 return res.status(404).json({ error: 'User doesnt exist' });
